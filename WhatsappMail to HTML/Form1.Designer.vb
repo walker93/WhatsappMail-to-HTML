@@ -24,11 +24,16 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.ApriButton = New System.Windows.Forms.Button()
         Me.Filedialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.ListView1 = New System.Windows.Forms.ListView()
+        Me.ConvoName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ConvoParticipants = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ConvoPath = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.SuspendLayout()
         '
         'ApriButton
         '
-        Me.ApriButton.Location = New System.Drawing.Point(478, 401)
+        Me.ApriButton.Location = New System.Drawing.Point(12, 12)
         Me.ApriButton.Name = "ApriButton"
         Me.ApriButton.Size = New System.Drawing.Size(75, 23)
         Me.ApriButton.TabIndex = 0
@@ -39,11 +44,40 @@ Partial Class Form1
         '
         Me.Filedialog1.Filter = "File txt|*.txt|Tutti i file|*.*"
         '
+        'ListView1
+        '
+        Me.ListView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ConvoName, Me.ConvoParticipants, Me.ConvoPath})
+        Me.ListView1.Location = New System.Drawing.Point(12, 41)
+        Me.ListView1.Name = "ListView1"
+        Me.ListView1.Size = New System.Drawing.Size(524, 251)
+        Me.ListView1.TabIndex = 1
+        Me.ListView1.UseCompatibleStateImageBehavior = False
+        Me.ListView1.View = System.Windows.Forms.View.Details
+        '
+        'ConvoName
+        '
+        Me.ConvoName.Text = "Nome"
+        Me.ConvoName.Width = 120
+        '
+        'ConvoParticipants
+        '
+        Me.ConvoParticipants.Text = "Partecipanti"
+        Me.ConvoParticipants.Width = 200
+        '
+        'ConvoPath
+        '
+        Me.ConvoPath.Text = "Percorso"
+        Me.ConvoPath.Width = 300
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(565, 436)
+        Me.ClientSize = New System.Drawing.Size(548, 304)
+        Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.ApriButton)
         Me.Name = "Form1"
         Me.Text = "Form1"
@@ -53,4 +87,9 @@ Partial Class Form1
 
     Friend WithEvents ApriButton As Button
     Friend WithEvents Filedialog1 As OpenFileDialog
+    Friend WithEvents ListView1 As ListView
+    Friend WithEvents ConvoName As ColumnHeader
+    Friend WithEvents ConvoParticipants As ColumnHeader
+    Friend WithEvents ConvoPath As ColumnHeader
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
 End Class
