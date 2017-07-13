@@ -1,6 +1,6 @@
 ﻿Module Regex
 
-    Public messagePattern As String = "^(([0-9]{2}[\/]?){3}), ([0-9]{2}:[0-9]{2}) - ([\S]*): "
+    Public messagePattern As String = "^(([0-9]{2}[\/]?){3}), ([0-9]{2}:[0-9]{2}) - (([\S ]*): ){0,1}"
     '                                Group $1 = Date, Group $3 = Time, Group $4 = Sender
 
     Function getTimestamp(text As String) As Date
@@ -21,7 +21,8 @@
         Dim reg As New Text.RegularExpressions.Regex(messagePattern)
         Dim matches = reg.Matches(text)
         If matches.Count > 0 Then
-            Dim sender = matches(0).Groups(4).Value
+            If matches(0).Groups.Count < 5 Then Return Nothing
+            Dim sender = matches(0).Groups(5).Value
             Return sender
         End If
         Return Nothing
