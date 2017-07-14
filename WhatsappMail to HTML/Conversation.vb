@@ -34,7 +34,7 @@
             'Gestione allegato
             If text.Contains(" (file allegato)") Then
                 Dim fileinfo As New IO.FileInfo(file)
-                att = fileinfo.DirectoryName + "\" + text.Substring(0, text.IndexOf(" (file allegato)"))
+                att = text.Substring(0, text.IndexOf(" (file allegato)"))
             End If
             Dim m As New Message(id, Timestamp, Sender, text, Name <> Sender, If(att, Nothing))
             Messages.Add(id, m)
@@ -52,6 +52,11 @@
 
         builder.AppendLine("</div>")
         Return builder.ToString
+    End Function
+
+    Public Function getConvoFolder()
+        Dim fileinfo As New IO.FileInfo(ConvoFile)
+        Return fileinfo.DirectoryName
     End Function
 
 End Class

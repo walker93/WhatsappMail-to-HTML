@@ -25,7 +25,7 @@
         res = res.Replace("SENTCLASS_PLACEHOLDER", If(isSent, "sent", ""))
         res = res.Replace("CENTER_PLACEHOLDER", If(center, "center", ""))
         res = res.Replace("ATTACHMENT_PLACEHOLDER", If(Not IsNothing(Attachment), attachmentHTML, ""))
-        res = res.Replace("PATH_PLACEHOLDER", If(Attachment, ""))
+        res = res.Replace("PATH_PLACEHOLDER", If(Not IsNothing(Attachment), "attachments\" + Attachment, ""))
         res = res.Replace("ATTACHMENT_END_PLACEHOLDER", If(Not IsNothing(Attachment), "</a>", ""))
 
         Return res

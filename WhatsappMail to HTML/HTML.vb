@@ -47,15 +47,8 @@
     Public header As String = "<html>
     <head>
         <style>CSS_PLACEHOLDER</style>
-        <script>
-function changeChat(src) {
-		document.getElementById('frame').src =src;
-}
-        </script>
     </head>
 <body>
-<a href='' onclick=changeChat('CONVO_HTML_PLACEHOLDER')>cambia convo</a>
-<iframe id='frame' src=''>
 "
 
     Public MessageHTML As String = "<div class='message SENTCLASS_PLACEHOLDER CENTER_PLACEHOLDER'>
