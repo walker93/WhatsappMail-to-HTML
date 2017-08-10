@@ -3,28 +3,28 @@
 Public Class Form1
 
     Dim chats As New List(Of Conversation)
-    Private Sub ApriButton_Click(sender As Object, e As EventArgs)
-
-    End Sub
+    Dim selected_platform As Integer = Platforms.Android
 
     Public Sub AddFiles(path As String)
         Dim file = New System.IO.FileInfo(path)
         If isSupportedFile(file) Then
             Dim p = file.FullName
             Dim name = file.Name.Replace("Chat WhatsApp con ", "").Replace(".txt", "").Trim
-            Dim c As New Conversation(name, p)
+            Dim c As Conversation
+            If selected_platform = Platforms.Android Then c = New Conversation(p, selected_platform, name)
+            If selected_platform = Platforms.iOS Then c = New Conversation(p, selected_platform)
             Dim col() = {c.Name, String.Join(", ", c.participants), c.Messages.Count.ToString, p}
-            chats.Add(c)
-            Dim item As New ListViewItem(col)
-            ListView1.Items.Add(item)
-            Application.DoEvents()
-        Else
-            Console.WriteLine("Not supported: " + file.FullName)
+                chats.Add(c)
+                Dim item As New ListViewItem(col)
+                ListView1.Items.Add(item)
+                Application.DoEvents()
+            Else
+                Console.WriteLine("Not supported:  " + file.FullName)
         End If
     End Sub
 
     Public Function isSupportedFile(file As FileInfo) As Boolean
-        Return file.Extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase) And file.Name.StartsWith("Chat WhatsApp")
+        Return file.Extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase) And (file.Name.StartsWith("Chat WhatsApp") OrElse file.Name = ("_chat.txt"))
     End Function
 
     Public Sub AddFiles(paths As String())
@@ -39,14 +39,16 @@ Public Class Form1
                 AddDirectory(dire, recursive)
             Next
         End If
-        Dim files = System.IO.Directory.GetFiles(path, "Chat WhatsApp *.txt")
+        Dim files = System.IO.Directory.GetFiles(path, "*.txt")
         AddFiles(files)
     End Sub
 
-    Private Sub ApriToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApriToolStripMenuItem.Click
+    Private Sub ApriToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApriToolStripMenuItem.Click, ApriCartellaIOSToolStripMenuItem.Click
         Dim dialog = FolderBrowserDialog1.ShowDialog
+        selected_platform = CType(sender, ToolStripMenuItem).Tag
         If dialog = DialogResult.OK Then
             AddDirectory(FolderBrowserDialog1.SelectedPath)
+            If selected_platform = Platforms.iOS Then checknames()
         End If
     End Sub
 
@@ -62,7 +64,7 @@ Public Class Form1
             Dim savepath = FolderBrowserDialog1.SelectedPath
             For Each chat As Conversation In chats
                 ToolStripProgressBar1.Value = 100 * chats.IndexOf(chat) \ chats.Count
-                ToolStripStatusLabel1.Text = "Generazione rapporto in corso... (" & (100 * chats.IndexOf(chat) / chats.Count).ToString & "%)"
+                ToolStripStatusLabel1.Text = "Generazione rapporto in corso... (" & (100 * chats.IndexOf(chat) \ chats.Count).ToString & "%)"
                 HTML.AppendLine(headerHTML)
                 HTML.AppendLine(chat.ToHtml)
                 HTML.AppendLine("</body></html>")
@@ -89,4 +91,39 @@ Public Class Form1
         ToolStripProgressBar1.Value = 100
         ToolStripStatusLabel1.Text = "Generazione rapporto completata"
     End Sub
+
+    Sub checknames()
+        Dim participants As New List(Of String)
+        Dim owner As String = ""
+        Dim maxCount = 0
+        For Each chat In chats
+            participants.AddRange(chat.participants)
+        Next
+        For Each p In participants
+            Dim c = participants.Where(Function(x) x = p).Count
+            If c > maxCount Then
+                maxCount = c
+                owner = p
+            End If
+        Next
+        Dim i = 0
+        ListView1.Items.Clear()
+
+        For Each chat In chats
+            If chat.isGroup Then
+                i += 1
+                chat.Name = "Gruppo " + i.ToString
+            Else
+                Dim temp As New List(Of String)(chat.participants)
+                temp.Remove(owner)
+                chat.Name = If(temp.Count > 0, temp.First, "Uknown")
+            End If
+            Dim col() = {chat.Name, String.Join(", ", chat.participants), chat.Messages.Count.ToString, chat.ConvoFile}
+
+            Dim item As New ListViewItem(col)
+            ListView1.Items.Add(item)
+            Application.DoEvents()
+        Next
+    End Sub
+
 End Class

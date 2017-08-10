@@ -32,6 +32,7 @@ Partial Class Form1
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApriToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ApriCartellaIOSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.GeneraRapportoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
@@ -47,11 +48,13 @@ Partial Class Form1
         '
         'ListView1
         '
+        Me.ListView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ConvoName, Me.ConvoParticipants, Me.ConvoMessages, Me.ConvoPath})
-        Me.ListView1.Dock = System.Windows.Forms.DockStyle.Top
         Me.ListView1.FullRowSelect = True
         Me.ListView1.GridLines = True
-        Me.ListView1.Location = New System.Drawing.Point(0, 24)
+        Me.ListView1.Location = New System.Drawing.Point(0, 27)
         Me.ListView1.Name = "ListView1"
         Me.ListView1.Size = New System.Drawing.Size(727, 349)
         Me.ListView1.TabIndex = 1
@@ -80,7 +83,7 @@ Partial Class Form1
         '
         'FolderBrowserDialog1
         '
-        Me.FolderBrowserDialog1.SelectedPath = "F:\PERIZIE IN CORSO\DIMITRI FRICANO\WA"
+        Me.FolderBrowserDialog1.SelectedPath = "F:\PERIZIE IN CORSO"
         '
         'MenuStrip1
         '
@@ -93,7 +96,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApriToolStripMenuItem, Me.ToolStripMenuItem2, Me.GeneraRapportoToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApriToolStripMenuItem, Me.ApriCartellaIOSToolStripMenuItem, Me.ToolStripMenuItem2, Me.GeneraRapportoToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "File"
@@ -101,18 +104,26 @@ Partial Class Form1
         'ApriToolStripMenuItem
         '
         Me.ApriToolStripMenuItem.Name = "ApriToolStripMenuItem"
-        Me.ApriToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.ApriToolStripMenuItem.Text = "&Apri"
+        Me.ApriToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.ApriToolStripMenuItem.Tag = "1"
+        Me.ApriToolStripMenuItem.Text = "&Apri cartella Android"
+        '
+        'ApriCartellaIOSToolStripMenuItem
+        '
+        Me.ApriCartellaIOSToolStripMenuItem.Name = "ApriCartellaIOSToolStripMenuItem"
+        Me.ApriCartellaIOSToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.ApriCartellaIOSToolStripMenuItem.Tag = "0"
+        Me.ApriCartellaIOSToolStripMenuItem.Text = "Apri cartella iOS"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(160, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 6)
         '
         'GeneraRapportoToolStripMenuItem
         '
         Me.GeneraRapportoToolStripMenuItem.Name = "GeneraRapportoToolStripMenuItem"
-        Me.GeneraRapportoToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.GeneraRapportoToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
         Me.GeneraRapportoToolStripMenuItem.Text = "&Genera Rapporto"
         '
         'StatusStrip1
@@ -169,4 +180,5 @@ Partial Class Form1
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents ToolStripProgressBar1 As ToolStripProgressBar
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
+    Friend WithEvents ApriCartellaIOSToolStripMenuItem As ToolStripMenuItem
 End Class

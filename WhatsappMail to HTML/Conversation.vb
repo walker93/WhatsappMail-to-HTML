@@ -5,12 +5,12 @@
     Property ConvoFile As String
     Property Messages As New Dictionary(Of Integer, Message) 'ID, Message
     Property participants As New List(Of String)
+    Property Platform As Integer = Platforms.Android
 
-
-    Public Sub New(Name As String, ConvoFile As String)
-        Me.Name = Name
+    Public Sub New(ConvoFile As String, plat As Integer, Optional Name As String = "Nessun Nome")
+        If Name <> "Nessun Nome" Then Me.Name = Name
         Me.ConvoFile = ConvoFile
-
+        Platform = plat
         PopulateMessages(Me.ConvoFile)
     End Sub
 
@@ -21,8 +21,8 @@
         Dim id As Integer = 0
         For Each line In lines
             id += 1
-            Dim Timestamp = getTimestamp(line)
-            Dim Sender = getSender(line)
+            Dim Timestamp = getTimestamp(line, Platform)
+            Dim Sender = getSender(line, Platform)
             If Timestamp.Equals(New Date) Then
                 Messages(id - 1).Text &= vbCrLf + line
                 id -= 1
