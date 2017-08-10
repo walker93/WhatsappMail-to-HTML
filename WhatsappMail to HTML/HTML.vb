@@ -61,4 +61,52 @@
 
     Public attachmentHTML As String = "<a href='PATH_PLACEHOLDER'>"
 
+
+
+    '------------------------------------------------------------
+
+    Public indexHTML_first As String = "<html>
+<head>
+  <title>TITLE_PLACEHOLDER</title>
+  <style>
+  .container{
+  height: 100%;
+  display: flex;
+  'align-items: stretch;
+}
+.nav{
+  flex: 0.2 auto;
+  width: 0%;
+  order: 1;
+  overflow-y: scroll;
+}
+.convo-link{
+  padding: 10px 0px;
+  border-bottom: solid 0px #ccc;
+}
+
+.convo-link:hover{
+  background-color: #ccf2ff;
+}
+
+[name=convo]{
+flex: 1;
+order: 2;
+}
+  </style>
+</head>
+<body>
+  <div class='container' width=100% height=100%>
+    <nav class='nav'>
+"
+
+    Public indexHTML_last As String = "
+</nav>
+<iframe name='convo' src=''></iframe>
+</div>
+</body>
+</html>
+"
+
+    Public IndexHTML_link As String = "<div class='convo-link'><a href='CONVO_INDEX_PLACEHOLDER' target='convo'>CONVO_NAME_PLACEHOLDER</a></div>"
 End Module

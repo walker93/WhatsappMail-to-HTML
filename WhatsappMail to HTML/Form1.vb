@@ -59,6 +59,7 @@ Public Class Form1
         End If
         Dim headerHTML As String = header.Replace("CSS_PLACEHOLDER", MessageCSS)
         Dim HTML As New Text.StringBuilder()
+        Dim convolinks As New List(Of String)
         Dim dialog = FolderBrowserDialog1.ShowDialog
         If dialog = DialogResult.OK Then
             Dim savepath = FolderBrowserDialog1.SelectedPath
@@ -71,6 +72,9 @@ Public Class Form1
                 Dim convopath = savepath & "\chats\(" & chats.IndexOf(chat).ToString & ") " & chat.Name
                 IO.Directory.CreateDirectory(convopath)
                 IO.Directory.CreateDirectory(convopath + "\attachments\")
+
+                convolinks.Add(IndexHTML_link.Replace("CONVO_INDEX_PLACEHOLDER", convopath & "\index.html").Replace("CONVO_NAME_PLACEHOLDER", chat.Name))
+
                 For Each m In chat.Messages
                     Dim att = m.Value.Attachment
                     If Not IsNothing(att) AndAlso att <> "" Then
@@ -87,6 +91,13 @@ Public Class Form1
                 HTML.Clear()
                 Application.DoEvents()
             Next
+
+            Dim indexHTML As New Text.StringBuilder(indexHTML_first.Replace("TITLE_PLACEHOLDER", "Rapporto chat whatsapp"))
+            For Each link In convolinks
+                indexHTML.AppendLine(link)
+            Next
+            indexHTML.AppendLine(indexHTML_last)
+            IO.File.WriteAllText(savepath & "\" & "index.html", indexHTML.ToString)
         End If
         ToolStripProgressBar1.Value = 100
         ToolStripStatusLabel1.Text = "Generazione rapporto completata"
