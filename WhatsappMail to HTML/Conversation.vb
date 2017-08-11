@@ -14,7 +14,8 @@
         PopulateMessages(Me.ConvoFile)
     End Sub
 
-    Private Sub PopulateMessages(file As String)
+    Public Sub PopulateMessages(file As String)
+        If Messages.Count <> 0 Then Messages.Clear()
         If Not IO.File.Exists(file) Then Throw New IO.FileNotFoundException
         Dim filetext = IO.File.ReadAllText(file)
         Dim lines() As String = filetext.Split(vbLf)
@@ -28,13 +29,23 @@
                 id -= 1
                 Continue For
             End If
-            Dim text = line.Substring(18 + If(Sender = "", 0, Sender.Length + 2))
-            Dim att As String = Nothing
             If Not participants.Contains(Sender) AndAlso Sender <> "" Then participants.Add(Sender)
-            'Gestione allegato
-            If text.Contains(" (file allegato)") Then
-                Dim fileinfo As New IO.FileInfo(file)
-                att = text.Substring(0, text.IndexOf(" (file allegato)"))
+            Dim text = ""
+            Dim att As String = Nothing
+            If Platform = Platforms.Android Then
+                text = line.Substring(18 + If(Sender = "", 0, Sender.Length + 2))
+                'Gestione allegato
+                If text.Contains(" (file allegato)") Then
+                    'Dim fileinfo As New IO.FileInfo(file)
+                    att = text.Substring(0, text.IndexOf(" (file allegato)"))
+                End If
+            ElseIf Platform = Platforms.iOS Then
+                text = line.Substring(20 + If(Sender = "", 0, Sender.Length + 2))
+                'Gestione allegato
+                If text.Contains(" <‎allegato>") Then
+                    'Dim fileinfo As New IO.FileInfo(file)
+                    att = text.Substring(0, text.IndexOf(" <allegato>"))
+                End If
             End If
             Dim m As New Message(id, Timestamp, Sender, text, Name <> Sender, If(att, Nothing))
             Messages.Add(id, m)

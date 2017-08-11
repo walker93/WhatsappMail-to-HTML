@@ -30,4 +30,8 @@
 
         Return res
     End Function
+
+    Public Overrides Function ToString() As String
+        Return Text & If(IsNothing(Attachment), "NO ALL.", "SI ALL.")
+    End Function
 End Class

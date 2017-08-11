@@ -129,6 +129,7 @@ Public Class Form1
                 temp.Remove(owner)
                 chat.Name = If(temp.Count > 0, temp.First, "Uknown")
             End If
+            chat.PopulateMessages(chat.ConvoFile)
             Dim col() = {chat.Name, String.Join(", ", chat.participants), chat.Messages.Count.ToString, chat.ConvoFile}
 
             Dim item As New ListViewItem(col)
