@@ -20,7 +20,7 @@
         Dim res As String = MessageHTML
 
         res = res.Replace("SENDER_PLACEHOLDER", Sender)
-        res = res.Replace("TEXT_PLACEHOLDER", Text.Replace(vbLf, "<br>").Replace("<", "&lt;").Replace(">", "&gt;"))
+        res = res.Replace("TEXT_PLACEHOLDER", Text.Replace("<", "&lt;").Replace(">", "&gt;")) '.Replace(vbLf, "<br>")
         res = res.Replace("TIMESTAMP_PLACEHOLDER", Timestamp.ToShortDateString & " " & Timestamp.ToShortTimeString)
         res = res.Replace("SENTCLASS_PLACEHOLDER", If(isSent, "sent", ""))
         res = res.Replace("CENTER_PLACEHOLDER", If(center, "center", ""))

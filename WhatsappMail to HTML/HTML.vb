@@ -15,6 +15,10 @@
   background-color: #CCF5FF;
 }
 
+.MessageText {
+    white-space: pre-line;
+}
+
 .center{
   align-self: center;
 }
