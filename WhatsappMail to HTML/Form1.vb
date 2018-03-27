@@ -1,30 +1,51 @@
 ﻿Imports System.IO
+Imports System.Text
 
 Public Class Form1
 
     Dim chats As New List(Of Conversation)
     Dim selected_platform As Integer = Platforms.Android
+    Public selected_language As Integer
 
     Public Sub AddFiles(path As String)
         Dim file = New System.IO.FileInfo(path)
         If isSupportedFile(file) Then
             Dim p = file.FullName
-            Dim name = file.Name.Replace("Chat WhatsApp con ", "").Replace(".txt", "").Trim
+            Dim name = file.Name.Replace("Chat WhatsApp con ", "").Replace("WhatsApp Chat with ", "").Replace(".txt", "").Trim
+            'Name = name.Replace("â€ª", "").Replace("â€¬", "")
+
+            ''_______________________________________________
+            '' Create two different encodings.
+            'Dim utf As Encoding = Encoding.UTF8
+            'Dim unicode As Encoding = Encoding.ASCII
+
+            '' Convert the string into a byte array.
+            'Dim utfBytes As Byte() = utf.GetBytes(name)
+
+            '' Perform the conversion from one encoding to the other.
+            'Dim unicodeBytes As Byte() = Encoding.Convert(utf, unicode, utfBytes)
+
+            '' Convert the new byte array into a char array and then into a string.
+            ''Dim unicodeChars(utf.GetCharCount(utfBytes, 0, utfBytes.Length) - 1) As Char
+            ''unicode.get(utfBytes, 0, utfBytes.Length, unicodeChars, 0)
+            'Dim UnicodeString As String = unicode.GetString(unicodeBytes) 'New String(unicodeChars)
+            ''_______________________________________________
+            ''name = UnicodeString
             Dim c As Conversation
             If selected_platform = Platforms.Android Then c = New Conversation(p, selected_platform, name)
             If selected_platform = Platforms.iOS Then c = New Conversation(p, selected_platform)
             Dim col() = {c.Name, String.Join(", ", c.participants), c.Messages.Count.ToString, p}
-                chats.Add(c)
-                Dim item As New ListViewItem(col)
-                ListView1.Items.Add(item)
-                Application.DoEvents()
-            Else
-                Console.WriteLine("Not supported:  " + file.FullName)
+            chats.Add(c)
+            Dim item As New ListViewItem(col)
+            ListView1.Items.Add(item)
+            Application.DoEvents()
+        Else
+            Console.WriteLine("Not supported:  " + file.FullName)
         End If
     End Sub
 
     Public Function isSupportedFile(file As FileInfo) As Boolean
-        Return file.Extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase) And (file.Name.StartsWith("Chat WhatsApp") OrElse file.Name = ("_chat.txt"))
+        Return file.Extension.Equals(".txt", StringComparison.CurrentCultureIgnoreCase) And (file.Name.StartsWith(If(selected_language = 0, "Chat WhatsApp", "WhatsApp Chat")) OrElse file.Name = ("_chat.txt"))
     End Function
 
     Public Sub AddFiles(paths As String())
@@ -46,6 +67,7 @@ Public Class Form1
     Private Sub ApriToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApriToolStripMenuItem.Click, ApriCartellaIOSToolStripMenuItem.Click
         Dim dialog = FolderBrowserDialog1.ShowDialog
         selected_platform = CType(sender, ToolStripMenuItem).Tag
+        selected_language = If(ToolStripComboBox1.Text = "Italiano", 0, 1)
         If dialog = DialogResult.OK Then
             AddDirectory(FolderBrowserDialog1.SelectedPath)
             If selected_platform = Platforms.iOS Then checknames()

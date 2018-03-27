@@ -33,11 +33,12 @@
             Dim text = ""
             Dim att As String = Nothing
             If Platform = Platforms.Android Then
-                text = line.Substring(18 + If(Sender = "", 0, Sender.Length + 2))
+                text = line.Substring(20 + If(Sender = "", 0, Sender.Length + 2))
                 'Gestione allegato
-                If text.Contains(" (file allegato)") Then
+                Dim search = If(Form1.selected_language = 0, " (file allegato)", " (file attached)")
+                If text.Contains(search) Then
                     'Dim fileinfo As New IO.FileInfo(file)
-                    att = text.Substring(0, text.IndexOf(" (file allegato)"))
+                    att = text.Substring(0, text.IndexOf(search))
                 End If
             ElseIf Platform = Platforms.iOS Then
                 text = line.Substring(20 + If(Sender = "", 0, Sender.Length + 2))
@@ -47,6 +48,7 @@
                     att = text.Substring(0, text.IndexOf(" <allegato>"))
                 End If
             End If
+
             Dim m As New Message(id, Timestamp, Sender, text, Name <> Sender, If(att, Nothing))
             Messages.Add(id, m)
         Next
@@ -70,4 +72,18 @@
         Return fileinfo.DirectoryName
     End Function
 
+
+    Public Function sameSender(ByVal Sender As String) As Boolean
+        If Sender = "" Then Return False
+        Dim unicode As Text.Encoding = Text.Encoding.Unicode
+        Dim senderbytes = unicode.GetBytes(Sender)
+        Dim namebytes = unicode.GetBytes(Name)
+        Dim list = senderbytes.ToList
+        list.RemoveAt(0)
+        list.RemoveAt(1)
+        list.RemoveAt(2)
+        senderbytes = list.ToArray
+        If Name = unicode.GetString(senderbytes) Then Return True
+        Return False
+    End Function
 End Class
