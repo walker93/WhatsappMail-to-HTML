@@ -23,7 +23,7 @@
             Dim Hours = matches(0).Groups(3).Value.Substring(0, 2)
             Dim minutes = matches(0).Groups(3).Value.Substring(3, 2)
             Dim seconds = If(plat = Platforms.iOS, matches(0).Groups(3).Value.Substring(6, 2), 0)
-            Return New Date((Integer.Parse(year) + 2000), month, day, Hours, minutes, seconds)
+            Return New Date((Integer.Parse(year)), month, day, Hours, minutes, seconds)
         End If
         Return Nothing
     End Function
