@@ -96,7 +96,7 @@ Public Class Form1
                 IO.Directory.CreateDirectory(convopath)
                 IO.Directory.CreateDirectory(convopath + "\attachments\")
 
-                convolinks.Add(IndexHTML_link.Replace("CONVO_INDEX_PLACEHOLDER", ".\" & relativePath & "\index.html").Replace("CONVO_NAME_PLACEHOLDER", chat.Name))
+                convolinks.Add(IndexHTML_link.Replace("CONVO_INDEX_PLACEHOLDER", "." & relativePath & "\index.html").Replace("CONVO_NAME_PLACEHOLDER", chat.Name))
 
                 For Each m In chat.Messages
                     Dim att = m.Value.Attachment
