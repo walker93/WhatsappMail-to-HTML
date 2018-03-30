@@ -91,11 +91,12 @@ Public Class Form1
                 HTML.AppendLine(headerHTML)
                 HTML.AppendLine(chat.ToHtml)
                 HTML.AppendLine("</body></html>")
-                Dim convopath = savepath & "\chats\(" & chats.IndexOf(chat).ToString & ") " & chat.Name
+                Dim relativePath As String = "\chats\(" & chats.IndexOf(chat).ToString & ") " & chat.Name
+                Dim convopath = savepath & relativePath
                 IO.Directory.CreateDirectory(convopath)
                 IO.Directory.CreateDirectory(convopath + "\attachments\")
 
-                convolinks.Add(IndexHTML_link.Replace("CONVO_INDEX_PLACEHOLDER", convopath & "\index.html").Replace("CONVO_NAME_PLACEHOLDER", chat.Name))
+                convolinks.Add(IndexHTML_link.Replace("CONVO_INDEX_PLACEHOLDER", ".\" & relativePath & "\index.html").Replace("CONVO_NAME_PLACEHOLDER", chat.Name))
 
                 For Each m In chat.Messages
                     Dim att = m.Value.Attachment
