@@ -35,10 +35,11 @@ Partial Class Form1
         Me.ApriCartellaIOSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.GeneraRapportoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -98,7 +99,7 @@ Partial Class Form1
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApriToolStripMenuItem, Me.ApriCartellaIOSToolStripMenuItem, Me.ToolStripMenuItem2, Me.GeneraRapportoToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApriToolStripMenuItem, Me.ApriCartellaIOSToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.GeneraRapportoToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 23)
         Me.FileToolStripMenuItem.Text = "File"
@@ -106,27 +107,36 @@ Partial Class Form1
         'ApriToolStripMenuItem
         '
         Me.ApriToolStripMenuItem.Name = "ApriToolStripMenuItem"
-        Me.ApriToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.ApriToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
         Me.ApriToolStripMenuItem.Tag = "1"
         Me.ApriToolStripMenuItem.Text = "&Apri cartella Android"
         '
         'ApriCartellaIOSToolStripMenuItem
         '
         Me.ApriCartellaIOSToolStripMenuItem.Name = "ApriCartellaIOSToolStripMenuItem"
-        Me.ApriCartellaIOSToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.ApriCartellaIOSToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
         Me.ApriCartellaIOSToolStripMenuItem.Tag = "0"
         Me.ApriCartellaIOSToolStripMenuItem.Text = "Apri cartella iOS"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(223, 6)
         '
         'GeneraRapportoToolStripMenuItem
         '
         Me.GeneraRapportoToolStripMenuItem.Name = "GeneraRapportoToolStripMenuItem"
-        Me.GeneraRapportoToolStripMenuItem.Size = New System.Drawing.Size(183, 22)
+        Me.GeneraRapportoToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
         Me.GeneraRapportoToolStripMenuItem.Text = "&Genera Rapporto"
+        '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.ToolStripComboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.ToolStripComboBox1.Items.AddRange(New Object() {"Italiano", "Inglese"})
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
+        Me.ToolStripComboBox1.Text = "Italiano"
         '
         'StatusStrip1
         '
@@ -148,14 +158,12 @@ Partial Class Form1
         Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(43, 17)
         Me.ToolStripStatusLabel1.Text = "Pronto"
         '
-        'ToolStripComboBox1
+        'ToolStripMenuItem1
         '
-        Me.ToolStripComboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
-        Me.ToolStripComboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
-        Me.ToolStripComboBox1.Items.AddRange(New Object() {"Italiano", "Inglese"})
-        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
-        Me.ToolStripComboBox1.Size = New System.Drawing.Size(121, 23)
-        Me.ToolStripComboBox1.Text = "Italiano"
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(226, 22)
+        Me.ToolStripMenuItem1.Tag = "2"
+        Me.ToolStripMenuItem1.Text = "&Apri cartella Windows Phone"
         '
         'Form1
         '
@@ -193,4 +201,5 @@ Partial Class Form1
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
     Friend WithEvents ApriCartellaIOSToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripComboBox1 As ToolStripComboBox
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
 End Class

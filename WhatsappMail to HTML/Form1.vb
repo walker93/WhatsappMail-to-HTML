@@ -12,27 +12,10 @@ Public Class Form1
         If isSupportedFile(file) Then
             Dim p = file.FullName
             Dim name = file.Name.Replace("Chat WhatsApp con ", "").Replace("WhatsApp Chat with ", "").Replace(".txt", "").Trim
-            'Name = name.Replace("â€ª", "").Replace("â€¬", "")
-
-            ''_______________________________________________
-            '' Create two different encodings.
-            'Dim utf As Encoding = Encoding.UTF8
-            'Dim unicode As Encoding = Encoding.ASCII
-
-            '' Convert the string into a byte array.
-            'Dim utfBytes As Byte() = utf.GetBytes(name)
-
-            '' Perform the conversion from one encoding to the other.
-            'Dim unicodeBytes As Byte() = Encoding.Convert(utf, unicode, utfBytes)
-
-            '' Convert the new byte array into a char array and then into a string.
-            ''Dim unicodeChars(utf.GetCharCount(utfBytes, 0, utfBytes.Length) - 1) As Char
-            ''unicode.get(utfBytes, 0, utfBytes.Length, unicodeChars, 0)
-            'Dim UnicodeString As String = unicode.GetString(unicodeBytes) 'New String(unicodeChars)
-            ''_______________________________________________
-            ''name = UnicodeString
+            name = removeUnicode(name)
             Dim c As Conversation
             If selected_platform = Platforms.Android Then c = New Conversation(p, selected_platform, name)
+            If selected_platform = Platforms.WP Then c = New Conversation(p, selected_platform, name)
             If selected_platform = Platforms.iOS Then c = New Conversation(p, selected_platform)
             Dim col() = {c.Name, String.Join(", ", c.participants), c.Messages.Count.ToString, p}
             chats.Add(c)
@@ -64,7 +47,7 @@ Public Class Form1
         AddFiles(files)
     End Sub
 
-    Private Sub ApriToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApriToolStripMenuItem.Click, ApriCartellaIOSToolStripMenuItem.Click
+    Private Sub ApriToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApriToolStripMenuItem.Click, ApriCartellaIOSToolStripMenuItem.Click, ToolStripMenuItem1.Click
         Dim dialog = FolderBrowserDialog1.ShowDialog
         selected_platform = CType(sender, ToolStripMenuItem).Tag
         selected_language = If(ToolStripComboBox1.Text = "Italiano", 0, 1)
@@ -91,7 +74,7 @@ Public Class Form1
                 HTML.AppendLine(headerHTML)
                 HTML.AppendLine(chat.ToHtml)
                 HTML.AppendLine("</body></html>")
-                Dim relativePath As String = "\chats\(" & chats.IndexOf(chat).ToString & ") " & chat.Name
+                Dim relativePath As String = "\chats\(" & chats.IndexOf(chat).ToString & ") " & chat.Name.TrimEnd
                 Dim convopath = savepath & relativePath
                 IO.Directory.CreateDirectory(convopath)
                 IO.Directory.CreateDirectory(convopath + "\attachments\")
@@ -102,7 +85,9 @@ Public Class Form1
                     Dim att = m.Value.Attachment
                     If Not IsNothing(att) AndAlso att <> "" Then
                         Try
-                            IO.File.Copy(chat.getConvoFolder & "\" & att, convopath + "\attachments\" + att, False)
+                            Dim copysource = Path.Combine(chat.getConvoFolder, att)
+                            Dim copydest = Path.Combine(convopath & "\attachments\", att)
+                            IO.File.Copy(copysource, copydest, False)
                         Catch ex As FileNotFoundException
                             Console.WriteLine(ex.FileName & " non trovato!")
                         Catch Exist As IOException
@@ -161,4 +146,18 @@ Public Class Form1
         Next
     End Sub
 
+
+    Public Function removeUnicode(text As String) As String
+        If text = String.Empty Then Return ""
+        Dim InputString = text
+        Dim asAscii = System.Text.Encoding.ASCII.GetString(
+             System.Text.Encoding.Convert(
+                 System.Text.Encoding.UTF8,
+                 System.Text.Encoding.GetEncoding(
+                    System.Text.Encoding.ASCII.EncodingName,
+                    New System.Text.EncoderReplacementFallback(String.Empty),
+                    New System.Text.DecoderExceptionFallback()),
+                 System.Text.Encoding.UTF8.GetBytes(text)))
+        Return asAscii
+    End Function
 End Class
